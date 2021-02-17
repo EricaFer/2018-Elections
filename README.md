@@ -8,14 +8,13 @@ Data Visualization using NLP of 15.000 tweets from each candidate of the 2018's 
 [Data Source]()
 
 
-<br><br><br>
+<br>
 
 ## TODO:
 
-[x] Importing
-[ ] Preprocessing
-    [x] Tokenize
-    [x] Lower words
-    [ ] Remove https
-    [ ] Identify Emojis
-[ ] Streamlit
+- [x] Importing
+- [x] Tokenize
+- [x] Lower words
+- [ ] Remove https
+- [ ] Identify Emojis
+- [ ] Streamlit
