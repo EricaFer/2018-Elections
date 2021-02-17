@@ -1,2 +1,21 @@
 # 2018-Elections
+<br>
+
 Data Visualization using NLP of 15.000 tweets from each candidate of the 2018's Brazilian Election. Web app using Streamlit
+
+<br><br>
+
+[Data Source]()
+
+
+<br><br><br>
+
+## TODO:
+
+[x] Importing
+[ ] Preprocessing
+    [x] Tokenize
+    [x] Lower words
+    [ ] Remove https
+    [ ] Identify Emojis
+[ ] Streamlit
