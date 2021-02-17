@@ -15,6 +15,7 @@ Data Visualization using NLP of 15.000 tweets from each candidate of the 2018's 
 - [x] Importing
 - [x] Tokenize
 - [x] Lower words
+- [x] Remove Stop Words
 - [ ] Remove https
 - [ ] Separate mentions
 - [ ] Separate Hashtags
