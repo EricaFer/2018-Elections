@@ -37,6 +37,12 @@ candidate_info = dict(zip(candidate_list, PATH_list))
 
 dfs = {}
 
+
+##############################################################################
+############################ CREATING FUNCTIONS  #############################
+##############################################################################
+
+
 def importing(dfs,candidate_info): 
     '''
     Takes dict candidate_info and import data using the path(value) and name
@@ -75,7 +81,7 @@ def preprocessing(dfs,candidate_list):
         dfs[key]['token_list'] = dfs[key].apply(lambda x: tt.tokenize(x.text), axis = 1)
         
         # Dropping unnecessary labels
-        dfs[key].drop(labels = ['id', 'datetime','text'], axis = 1, inplace = True)
+        dfs[key].drop(labels = ['id', 'datetime','text', 'created_at'], axis = 1, inplace = True)
         
         # Lowering words
         dfs[key]['token_list'] = [[word.lower() for word in lists] for lists in dfs[key].token_list]
