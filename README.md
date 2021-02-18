@@ -22,3 +22,4 @@ Data Visualization using NLP of 15.000 tweets from each candidate of the 2018's 
 - [x] Word Frequency
 - [ ] Sentiment Analysis
 - [ ] Streamlit
+- [ ] Create Fluxogram
