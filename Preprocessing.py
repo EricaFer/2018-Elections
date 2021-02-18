@@ -50,6 +50,16 @@ def importing(dfs,candidate_info):
     
 def preprocessing(dfs,candidate_list):
     
+    '''
+    Tokenize tweets - transforms a senetence into separate words
+    Loops through Dataframe Dictionary to:
+        - Turns every word into lowercase
+        - remove symbols such as .?:;
+        - removes hashtags and mentions
+        - creates an exclusive column for hashtags and mentions
+        - removes stopwords (connectors, prepositions)
+    '''
+    
     tt = TweetTokenizer()
     
     Stop_Words_Spacy = list(STOP_WORDS)
