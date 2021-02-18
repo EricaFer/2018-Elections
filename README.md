@@ -19,6 +19,6 @@ Data Visualization using NLP of 15.000 tweets from each candidate of the 2018's 
 - [x] Remove https
 - [x] Separate mentions
 - [x] Separate Hashtags
-- [ ] Word Frequency
+- [x] Word Frequency
 - [ ] Sentiment Analysis
 - [ ] Streamlit
