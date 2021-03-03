@@ -1,7 +1,5 @@
 ![image](https://user-images.githubusercontent.com/53838883/109822532-ce2ac900-7c15-11eb-8ec6-9e02116a6127.png)
 
-# 2018-Elections
-<br>
 
 Data Visualization using NLP of 15.000 tweets from candidateS of the 2018's Brazilian Election. Web app using Streamlit
 
