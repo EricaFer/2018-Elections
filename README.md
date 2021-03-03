@@ -20,7 +20,6 @@ Data Visualization using NLP of 15.000 tweets from candidateS of the 2018's Braz
 - [x] Separate mentions
 - [x] Separate Hashtags
 - [x] Word Frequency
-- [ ] Stemming
 - [ ] NER
 - [ ] Sentiment Analysis
 - [ ] Streamlit
