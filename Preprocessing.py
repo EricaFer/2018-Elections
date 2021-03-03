@@ -11,6 +11,17 @@ from spacy.lang.pt.stop_words import STOP_WORDS
 
 nltk.download('stopwords')
 
+candidate_list =   ['AlvaroDias',
+                    'CiroGomes',
+                    'GeraldoAlckmin',
+                    'FernandoHaddad',
+                    'JairBolsonaro',
+                    'JoaoAmoedo',
+                    'Lula',
+                    'MichelTemer',
+                    'Meirelles',
+                    'MarinaSilva']
+
 PATH_list =        ["alvarodias_.csv",
                     "cirogomes.csv",
                     "geraldoalckmin.csv",
@@ -22,16 +33,6 @@ PATH_list =        ["alvarodias_.csv",
                     "meirelles.csv",
                     "silva_marina.csv"]
 
-candidate_list =   ['AlvaroDias',
-                    'CiroGomes',
-                    'GeraldoAlckmin',
-                    'FernandoHaddad',
-                    'JairBolsonaro',
-                    'JoaoAmoedo',
-                    'Lula',
-                    'MichelTemer',
-                    'Meirelles',
-                    'MarinaSilva']
 
 candidate_info = dict(zip(candidate_list, PATH_list))
 
@@ -81,7 +82,7 @@ def preprocessing(dfs,candidate_list):
         dfs[key]['token_list'] = dfs[key].apply(lambda x: tt.tokenize(x.text), axis = 1)
         
         # Dropping unnecessary labels
-        dfs[key].drop(labels = ['id', 'datetime','text', 'created_at'], axis = 1, inplace = True)
+        dfs[key].drop(labels = ['id', 'datetime','created_at'], axis = 1, inplace = True)
         
         # Lowering words
         dfs[key]['token_list'] = [[word.lower() for word in lists] for lists in dfs[key].token_list]

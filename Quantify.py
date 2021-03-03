@@ -2,14 +2,17 @@
 # Contact: erica.ferreira@poli.ufrj.br
 # Data source: https://github.com/RodrigoMenegat/o-que-15-mil-tweets-revelam-sobre-seu-candidato
 
-import pandas as pd
-import Preprocessing as pre
 
-#from polyglot.text import Text
+import re
+import pandas as pd
+from Preprocessing import candidate_list
 from collections import Counter
-#from gensim.models.tfidfmodel import TfidfModel
 
 dfs = {}
+
+##############################################################################
+############################ CREATING FUNCTIONS  #############################
+##############################################################################
 
 def importing(dfs):
     '''
@@ -19,8 +22,8 @@ def importing(dfs):
     print('\nImporting Clean Data...')
     prefix = './Preprocessed Data/Clean_'
     
-    for candidate_name in pre.candidate_list:
-        dfs[candidate_name] = pd.read_csv(prefix + candidate_name + '.csv')
+    for candidate_name in candidate_list:
+        dfs['Clean_' + candidate_name] = pd.read_csv(prefix + candidate_name + '.csv', index_col = 0)
     
 def Frequency(dfs):
     
@@ -30,53 +33,69 @@ def Frequency(dfs):
     
     print('Creating Bag of Words...')
         
+    # Turns the Mentions and Hashtags Columns in a list
+        
     for key in dfs:
         
-        # Creates empty list
+    # Creates empty list
         Hashtag_List = []
-        Mentions_List = []
-        
-        # Turns the Mentions and Hashtags Columns in a list
-        Hashtag_List = [[Hashtag_List.append(word) for word in row] if len(row) != 0 for row in dfs[key].Hashtag]
-        Mentions_List = [[Mentions_List.append(word) for word in row] if len(row) != 0 for row in dfs[key].Mentions]
-        
+        Mentions_List = []                       
+
+        for row in dfs[key].Hashtag:
+            if row != '[]':
+                
+                string_list = row.split(',')
+                
+                if len(string_list) == 1:
+                   string_list = re.sub("[^A-Za-z0-9]+", "", string_list[0])
+                
+                else:
+                    string_list = [re.sub("[^A-Za-z0-9]+", "", string) for string in string_list]
+                
+                    Hashtag_List.extend(string_list)
+                    
+        for row in dfs[key].Mentions:
+            if row != '[]':
+                
+                string_list = row.split(',')
+                
+                if len(string_list) == 1:
+                   string_list = re.sub("[^A-Za-z0-9]+", "", string_list[0])
+                
+                else:
+                    string_list = [re.sub("[^A-Za-z0-9]+", "", string) for string in string_list]
+                
+                    Mentions_List.extend(string_list)
+                   
+        '''
         # Counts occurences of Hashtags and Mentions
+        print('\nCounting Mentions and Hashtags occurences...')
         Counter_Hashtag = Counter(Hashtag_List)
         Counter_Mentions = Counter(Mentions_List)
         
         # Sorts the occurences in a decrescent order
+        print('\nSorting Mentions and Hashtags occurences...')
         Counter_Hashtag = sorted(Hashtag_List[:][0], key = Hashtag_List[:][1], reverse = True)
         Counter_Mentions = sorted(Mentions_List[:][0], key = Mentions_List[:][1], reverse = True)
         
         # Counts occurence of words in each Tweet
         dfs[key]['BOW'] = [Counter(row) for row in dfs[key].token_list]
-    
-def Tfidf(dfs):
-    '''
-    Calculates the relevance of each word of each tweet.
-    '''
-    
-    print('Calculting TFIDF...')
-    
-    # Instantiating Model
-    tfidf = TfidfModel()
-    
-    for key in dfs:
-    
-        dfs[key]['Tfidf'] = [tfidf(row) for row in dfs[key].BOW]
-        dfs[key].drop(labels = 'BOW', axis =  1, inplace = True)
         
-def Total_Relevance(dfs):
-    '''
-    
-    ''' 
-        
-    total_relevance = []
-    
-    print('Calculating Total Relevance...')
+    return Counter_Hashtag, Counter_Mentions'''
 
+    print(Hashtag_List)
+    
+    
+    
+
+##############################################################################
+############################ CALLING FUNCTIONS ###############################
+##############################################################################
+    
         
 importing(dfs)
-Frequency(dfs)       
+Frequency(dfs)  
+
+print('\nCode Executed Sucessfully')
         
         
