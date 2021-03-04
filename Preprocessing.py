@@ -101,7 +101,7 @@ def preprocessing(dfs,candidate_list):
         dfs[key]['token_list'] = [[word for word in lists if re.match(pattern_twitter, word) is None ] for lists in dfs[key].token_list]
         
         # Removing all symbols
-        pattern_words_numbers = '[0-9a-zA-Z]+'
+        pattern_words_numbers = '[àÀáÁéÉçôõãúÚíÍóÓ, 0-9a-zA-Z]+'
         dfs[key]['token_list'] = [[word for word in lists if re.match(pattern_words_numbers, word) is not None] for lists in dfs[key].token_list]
 
 def saving_changes(dfs):

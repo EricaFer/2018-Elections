@@ -14,7 +14,7 @@ dfs = {}
 ############################ CREATING FUNCTIONS  #############################
 ##############################################################################
 
-def importing(dfs):
+def Importing(dfs):
     '''
     Imports the Preprocessed Data and saves it in a dictionary.
     '''
@@ -25,48 +25,56 @@ def importing(dfs):
     for candidate_name in candidate_list:
         dfs['Clean_' + candidate_name] = pd.read_csv(prefix + candidate_name + '.csv', index_col = 0)
     
-def Frequency(dfs):
+def Preprocess_Hashtag_Mentions(dfs):
     
     '''
-    Creates a Bag of Words (counts words frequency of each tweet, mention and Hashtag)
+        - Puts all the Hashtags and Mentions of a candidate into a big list.
+        - Counts how many times a Hashtag or Mention was used.
+        - Divides the frequency value for the total quantities of unique Hashtags and Mentions.
+        - Sorts these words in a decrescent order according to their relevance value.
     '''
     
     print('Creating Bag of Words...')
+    
+    regex_pattern = "[^A-Za-z0-9]+"
+    
+    dfs_combined = ['Hashtag', 'Mentions'] 
+    
+    # Creates empty list
+    Hashtag_List = []
+    Mentions_List = []
         
     # Turns the Mentions and Hashtags Columns in a list
         
     for key in dfs:
-        
-    # Creates empty list
-        Hashtag_List = []
-        Mentions_List = []                       
-
-        for row in dfs[key].Hashtag:
-            if row != '[]':
-                
-                string_list = row.split(',')
-                
-                if len(string_list) == 1:
-                   string_list = re.sub("[^A-Za-z0-9]+", "", string_list[0])
-                
-                else:
-                    string_list = [re.sub("[^A-Za-z0-9]+", "", string) for string in string_list]
-                
-                    Hashtag_List.extend(string_list)
+        for df in dfs_combined:
+            for row in dfs[key][df]:
+                if row != '[]':
                     
-        for row in dfs[key].Mentions:
-            if row != '[]':
+                    string_list = row.split(',')
+                    
+                    if len(string_list) == 1:
+                       string_list = re.sub(regex_pattern, "", string_list[0])
+                    
+                    else:
+                        string_list = [re.sub(regex_pattern, "", string) for string in string_list]
+            
+            if df == 'Hashtag':
+                Hashtag_List.extend(string_list)
+                dfs[key][df] = Hashtag_List.value_counts().index
+                dfs[key][df + '_valor'] = dfs[key][df]/len(Hashtag_List)
                 
-                string_list = row.split(',')
                 
-                if len(string_list) == 1:
-                   string_list = re.sub("[^A-Za-z0-9]+", "", string_list[0])
+            elif df == 'Mentions':
+                Mentions_List.extend(string_list)
+                dfs[key][df] = Hashtag_List.value_counts().index
+                dfs[key][df + '_valor'] = dfs[key][df]/len(Mentions_List)
                 
-                else:
-                    string_list = [re.sub("[^A-Za-z0-9]+", "", string) for string in string_list]
-                
-                    Mentions_List.extend(string_list)
-                   
+            dfs[key].sort_values(by = str(df) + '_valor', inplace = True, ascending = False)
+    
+def Counting():
+
+                     
         '''
         # Counts occurences of Hashtags and Mentions
         print('\nCounting Mentions and Hashtags occurences...')
@@ -83,18 +91,14 @@ def Frequency(dfs):
         
     return Counter_Hashtag, Counter_Mentions'''
 
-    print(Hashtag_List)
-    
-    
-    
 
 ##############################################################################
 ############################ CALLING FUNCTIONS ###############################
 ##############################################################################
     
         
-importing(dfs)
-Frequency(dfs)  
+Importing(dfs)
+Preprocess_Hashtag_Mentions(dfs)  
 
 print('\nCode Executed Sucessfully')
         
