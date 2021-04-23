@@ -58,7 +58,7 @@ def importing(dfs,candidate_info):
 def preprocessing(dfs,candidate_list):
     
     '''
-    Tokenize tweets - transforms a senetence into separate words
+    Tokenize tweets - transforms a sentence into separate words
     Loops through Dataframe Dictionary to:
         - Turns every word into lowercase
         - remove symbols such as .?:;
@@ -72,7 +72,7 @@ def preprocessing(dfs,candidate_list):
     Stop_Words_Spacy = list(STOP_WORDS)
     Stop_Words_NLTK  = list(stopwords.words('portuguese'))
     
-    All_Stop_Words = list(set(Stop_Words_NLTK + Stop_Words_Spacy))
+    All_Stop_Words = list(set(Stop_Words_NLTK + Stop_Words_Spacy + [',']))
     
     print('Preprocessing the Data...')
     

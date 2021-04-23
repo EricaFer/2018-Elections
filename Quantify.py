@@ -7,6 +7,7 @@ import re
 import pandas as pd
 from Preprocessing import candidate_list
 from collections import Counter
+from nltk import flatten
 
 dfs = {}
 
@@ -36,7 +37,7 @@ def Preprocess_Hashtag_Mentions(dfs):
     
     print('Creating Bag of Words...')
     
-    regex_pattern = "[^A-Za-z0-9]+"
+    regex_pattern = "[^àÀáÁéÉçôõãúÚíÍ, ^A-Za-z0-9]+"
     
     dfs_combined = ['Hashtag', 'Mentions'] 
     
@@ -51,6 +52,9 @@ def Preprocess_Hashtag_Mentions(dfs):
             for row in dfs[key][df]:
                 if row != '[]':
                     
+                    # Counts occurence of words in each Tweet
+                    dfs[key]['BOW'] = [Counter(row) for row in dfs[key].token_list]
+                    
                     string_list = row.split(',')
                     
                     if len(string_list) == 1:
@@ -58,47 +62,43 @@ def Preprocess_Hashtag_Mentions(dfs):
                     
                     else:
                         string_list = [re.sub(regex_pattern, "", string) for string in string_list]
+                    
+
+        if df == 'Hashtag':
+            Hashtag_List.append(string_list)
             
-            if df == 'Hashtag':
-                Hashtag_List.extend(string_list)
-                dfs[key][df] = Hashtag_List.value_counts().index
-                dfs[key][df + '_valor'] = dfs[key][df]/len(Hashtag_List)
-                
-                
-            elif df == 'Mentions':
-                Mentions_List.extend(string_list)
-                dfs[key][df] = Hashtag_List.value_counts().index
-                dfs[key][df + '_valor'] = dfs[key][df]/len(Mentions_List)
-                
-            dfs[key].sort_values(by = str(df) + '_valor', inplace = True, ascending = False)
-    
-def Counting():
-
-                     
-        '''
-        # Counts occurences of Hashtags and Mentions
-        print('\nCounting Mentions and Hashtags occurences...')
-        Counter_Hashtag = Counter(Hashtag_List)
-        Counter_Mentions = Counter(Mentions_List)
+            
+        elif df == 'Mentions':
+            Mentions_List.append(string_list)
+            
+        # Creates flatten list
+        Hashtag_List = flatten(Hashtag_List)
+        Mentions_List = flatten(Mentions_List)
         
-        # Sorts the occurences in a decrescent order
-        print('\nSorting Mentions and Hashtags occurences...')
-        Counter_Hashtag = sorted(Hashtag_List[:][0], key = Hashtag_List[:][1], reverse = True)
-        Counter_Mentions = sorted(Mentions_List[:][0], key = Mentions_List[:][1], reverse = True)
+        # Counts the occurences of hashtags and mentions
+        Hashtag_count = Counter(Hashtag_List)
+        Mentions_count = Counter(Mentions_List)
         
-        # Counts occurence of words in each Tweet
-        dfs[key]['BOW'] = [Counter(row) for row in dfs[key].token_list]
         
-    return Counter_Hashtag, Counter_Mentions'''
+        # Saving Hashtags and Mentions into a Series
+        dfs[key]['Hashtag_order'] = [x for x in Hashtag_count]
+        dfs[key]['Mention_order'] = [x for x in Mentions_count]
+        
+        # Saving the number of occurences
+        dfs[key]['Hashtag_occurences'] = [Hashtag_count[x] for x in Hashtag_count]
+        dfs[key]['Mention_occurences'] = [Mentions_count[x] for x in Mentions_count]
 
-
+def saving_changes(dfs):
+    print('Saving Changes...')
+    for key in dfs:
+        dfs[key].to_csv('.\Processed Data\Clean_' + key + '.csv')
+        
 ##############################################################################
 ############################ CALLING FUNCTIONS ###############################
 ##############################################################################
-    
         
 Importing(dfs)
-Preprocess_Hashtag_Mentions(dfs)  
+Preprocess_Hashtag_Mentions(dfs)
 
 print('\nCode Executed Sucessfully')
         
