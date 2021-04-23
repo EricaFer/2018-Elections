@@ -20,7 +20,5 @@ Data Visualization using NLP of 15.000 tweets from candidates of the 2018's Braz
 - [x] Separate mentions
 - [x] Separate Hashtags
 - [x] Word Frequency
-- [ ] NER
 - [ ] Sentiment Analysis
 - [ ] Streamlit
-- [ ] Create Fluxogram
